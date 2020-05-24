@@ -1,0 +1,73 @@
+.wrap-box {
+    position: relative;
+    width: 680px;
+    background-color:#F8F8F8;
+    border-radius: 20px;
+    margin-top: 40px;
+}
+
+.joke-box {
+    display: inline-block;
+    width: 540px;
+    height: 118px; 
+    padding: 67px 100px;
+}
+
+.joke-box p {
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.joke-box + span {
+    position: absolute;
+    top: 67px;
+    left: 100px;
+}
+
+.joke-box::after {
+    content: ''
+}
+
+.bottom-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    line-height: 14px;
+    padding-top: 28px;
+}
+
+.bottom-line + span {
+    position: absolute;
+    top: 67px;
+    left: 100px;
+}
+
+#secondary-text {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 14px;
+    color: #ABABAB;
+}
+
+.heart-icon {
+    display: inline-block;
+    position: absolute;
+    font-size: 20px;
+    left: 620px;
+    top: 40px;
+    color: #FF6767;
+}
+
+.heart-icon:hover {
+    opacity: .5; 
+}
+
+.message-icon {
+    position: absolute;
+    top: 78px;
+    left: 50px;
+}
+
+
+

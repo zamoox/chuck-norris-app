@@ -4,7 +4,7 @@ import { withService } from '../hoc';
 import Categories from '../jumbotron/categories';
 import './joke-box.css';
 
-const JokeBox = ({joke}) => {
+const JokeBox = ({joke, activeCategory}) => {
 
     const { id, value, hoursAgo, categories} = joke;
 
@@ -25,7 +25,7 @@ const JokeBox = ({joke}) => {
                             Last update: {hoursAgo} hours ago
                         </span>
                     </div>
-                    <Categories categories={['animal', 'celebrity', 'dev', 'career']} disabled={true} />
+                    <Categories categories={activeCategory} disabled={true} />
                 </div> 
             </div>
             <i className="message-icon far fa-comment-alt"></i>

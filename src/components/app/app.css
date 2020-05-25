@@ -4,8 +4,7 @@ html, body, #root {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: normal;
-    overflow: hidden;
-
+    overflow-x: hidden;
 }
 
 .layout {

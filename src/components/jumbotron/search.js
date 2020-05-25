@@ -4,10 +4,11 @@ import './jumbotron.css';
 
 const Search = ({handleChange}) => {
 
-    const [ label, setLabel] = useState('');
+    const [ label, setLabel ] = useState('');
 
-    handleChange = ({target}) => {
-        setLabel(target.value);
+    const handler = ({target: {value}}) => {
+        handleChange(value)
+        setLabel(value);
     }
 
     return (
@@ -16,7 +17,7 @@ const Search = ({handleChange}) => {
         type="search" 
         placeholder="Free text search..."
         value={label} 
-        onChange={handleChange}>
+        onChange={handler}>
         </input>
     );
 }

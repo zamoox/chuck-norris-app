@@ -6,12 +6,14 @@ import { withService } from '../hoc';
 import JokeBox from '../joke-box';
 import Categories from './categories';
 import Search from './search';
+import { act } from 'react-dom/test-utils';
 
 const Jumbotron = ({service, onHandleClick}) => {
 
     const [joke, setJoke] = useState('');
     const [checkView, setCheckView] = useState('');
     const [categories, setCategories] = useState([]);
+    const [activeCategory, setActiveCategory] = useState([]);
     const [label, setLabel] = useState('');
 
     const { getCategories, getRandomJoke, getJokeByCategory, getJokeBySearch } = service;
@@ -22,24 +24,34 @@ const Jumbotron = ({service, onHandleClick}) => {
         fetchCategories();
     }, []) 
 
-    // const handleCheck = ({target: {checked, value}}) => {
-    //     setCheckView({
-    //         check: checked,
-    //         value: value
-        //     });
     const fetchCategories = () => {
         getCategories().then(data => setCategories(data.slice(0,8)));
     } 
 
-    const fetchJoke = () => {
-        getRandomJoke()
+    const fetchJoke = (...args) => {
+
+        let getData = getRandomJoke;
+
+        if (activeCategory.length > 0) {
+            getData = getJokeByCategory;
+            args[0] = activeCategory[0];
+        }
+        
+        if (label !== '') {
+            getData = getJokeBySearch;
+            args[0] = label;
+        } 
+
+        getData(...args)
         .then((data) => {
             console.log(data);
             setJoke(data);
         });
+
+        setLabel('');
+
     }
 
-    
     return (
         <div className="jumbotron">
             <span id="logo">MSI 2020</span>
@@ -61,7 +73,7 @@ const Jumbotron = ({service, onHandleClick}) => {
                 </label>
             </div>
 
-            {checkView === "categories" &&  <Categories categories={categories} />}
+            {checkView === "categories" &&  <Categories categories={categories} onCategoryClicked={({innerHTML})=>setActiveCategory([innerHTML])}/>}
 
             <div className="form-check">
                 <label className="form-check-label">
@@ -73,12 +85,10 @@ const Jumbotron = ({service, onHandleClick}) => {
 
             {checkView === "search" &&  <Search handleChange={(label) => setLabel(label)}/>}
 
-            
-
             <button onClick={fetchJoke}>
                 Get a joke
             </button>
-            <JokeBox joke={joke} />
+            <JokeBox joke={joke} activeCategory={activeCategory}/>
         </div>        
     );
 }

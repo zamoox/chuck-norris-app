@@ -83,13 +83,25 @@
 
 #category-disabled {
     background-color: #ffffff;
-    color: #ABABAB;
     border-radius: 6px;
     font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 2px;
     padding: 6px 20px;
+}
+
+#category-active {
+    background-color: #ffecee;
+    color: #ABABAB;
+    transition: .2s ease-in;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 6px 20px;
+    cursor: pointer;
 }
 
 .search-input {

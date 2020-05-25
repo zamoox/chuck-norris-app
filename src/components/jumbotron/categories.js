@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './jumbotron.css';
 
-const Categories = ({categories, disabled}) => {
+const Categories = ({categories = [], onCategoryClicked, disabled = false}) => {
 
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState({id: "category"});
     const categoryId = disabled ? "category-disabled" : "category";
+    
+    // useEffect(() => {
+    //     return () => {
+    //         const initialValue = {id: "category"};
+    //         setCategory(initialValue);
+    //     }
+    // }, [])
+
+
+    const handleClick = ({target}) => {
+        if (!disabled) {
+            category.id = 'category';
+            target.id='category-active';
+            onCategoryClicked(target);
+            setCategory(target);       
+        }
+    }
 
     return (
         <div className="categories-wrap">
@@ -15,7 +32,7 @@ const Categories = ({categories, disabled}) => {
                         <span 
                         key={index} 
                         id={categoryId}
-                        onClick={(e) => setCategory(e.target.innerHTML)}> 
+                        onClick={handleClick}> 
                             {element}
                         </span>
                     );

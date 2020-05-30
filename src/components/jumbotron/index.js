@@ -1,8 +1,8 @@
 import Jumbotron from './jumbotron';
-import Categories from './categories';
+import CategoriesList from './categories-list';
 import Search from './search';
 
 export default Jumbotron;
 export {
-    Categories, Search
+    CategoriesList, Search
 }

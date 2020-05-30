@@ -1,8 +1,8 @@
 .jumbotron {
-    margin: 40px 0 140px 140px;
     flex-grow: 1;
     width: 680px;
     color: #333333;
+    margin: 40px 0 0 140px;
 }
 
 .jumbotron #logo {
@@ -44,7 +44,7 @@
     height: 20px;
 }
 
-.jumbotron button {
+.get-button {
     margin-top: 20px;
     padding: 10px 40px;
     border-radius: 10px;
@@ -78,7 +78,7 @@
 
 #category:hover {
     background-color: #eeeeee;
-    transition: .2s ease-in;
+    transition: .1s ease-in;
 }
 
 #category-disabled {
@@ -93,7 +93,6 @@
 
 #category-active {
     background-color: #ffecee;
-    color: #ABABAB;
     transition: .2s ease-in;
     border-radius: 6px;
     font-size: 10px;

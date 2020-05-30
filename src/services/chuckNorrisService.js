@@ -12,11 +12,11 @@ export default class ChuckNorrisService {
     _transformData = (response) => {
         return {
             id: response.id,
-            value: response.value,
+            joke: response.value,
             hoursAgo: getHoursAgo(response.updated_at),
-            categories: response.categories,
+            category: response.categories,
             url: response.url,
-            icon: response.icon_url
+            favorite: false
         }
     }
 

@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { withService } from '../hoc';
 
-import Categories from '../jumbotron/categories';
+import CategoriesList from '../jumbotron/categories-list';
 import './joke-box.css';
 
-const JokeBox = ({joke, activeCategory}) => {
+const JokeBox = ({ jokeData, onFlagChange }) => {
 
-    const { id, value, hoursAgo, categories} = joke;
+    const { id, joke, hoursAgo, category, favorite } = jokeData;
+
+    const clazz = favorite ? 'fas' : 'far';
+
+    const onHandleClick = () => {
+        onFlagChange(id);
+    }
 
     return (
         <div className="wrap-box">
@@ -17,22 +23,27 @@ const JokeBox = ({joke, activeCategory}) => {
                         </a>
                 </span>
                 <p>
-                    {value}
+                    {joke}
                 </p>
+
                 <div className="bottom-line">
                     <div className="secondary-text-wrap">
                         <span id="secondary-text">
                             Last update: {hoursAgo} hours ago
                         </span>
                     </div>
-                    <Categories categories={activeCategory} disabled={true} />
-                </div> 
+                    <div className="categories-wrap">
+                        <span id="category-disabled">{category}</span>
+                    </div>
+                </div>
+
             </div>
             <i className="message-icon far fa-comment-alt"></i>
             <i 
-            className="heart-icon far fa-heart"
-            onClick={()=>{}}>
+            className={'heart-icon fa-heart ' + clazz}
+            onClick={onHandleClick}>
             </i>
+            
         </div>
     );
 }

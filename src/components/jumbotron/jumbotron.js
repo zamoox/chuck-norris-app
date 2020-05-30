@@ -4,91 +4,100 @@ import './jumbotron.css';
 
 import { withService } from '../hoc';
 import JokeBox from '../joke-box';
-import Categories from './categories';
+import CategoriesList from './categories-list';
 import Search from './search';
 import { act } from 'react-dom/test-utils';
+import ItemList from '../item-list';
 
-const Jumbotron = ({service, onHandleClick}) => {
+const Jumbotron = ({data, service, onJokesAdded, onOptionsAdded}) => {
 
-    const [joke, setJoke] = useState('');
+    const [ activeRadio, setActiveRadio ] = useState();
     const [checkView, setCheckView] = useState('');
     const [categories, setCategories] = useState([]);
     const [activeCategory, setActiveCategory] = useState([]);
     const [label, setLabel] = useState('');
 
-    const { getCategories, getRandomJoke, getJokeByCategory, getJokeBySearch } = service;
-    
     useEffect(() => {
-        console.log('componentDidMount');
-        fetchJoke();
         fetchCategories();
-    }, []) 
+    }, [])
+
+
+    const { getCategories, getRandomJoke, getJokeByCategory, getJokeBySearch } = service;
 
     const fetchCategories = () => {
-        getCategories().then(data => setCategories(data.slice(0,8)));
-    } 
-
-    const fetchJoke = (...args) => {
-
-        let getData = getRandomJoke;
-
-        if (activeCategory.length > 0) {
-            getData = getJokeByCategory;
-            args[0] = activeCategory[0];
-        }
-        
-        if (label !== '') {
-            getData = getJokeBySearch;
-            args[0] = label;
-        } 
-
-        getData(...args)
-        .then((data) => {
-            console.log(data);
-            setJoke(data);
-        });
-
-        setLabel('');
-
+        getCategories().then(data => setCategories(data.slice(0,4)));
     }
+
+    const onChangeRadio = (e) => {
+
+        switch (e.target.id) {
+            
+            case 'random':
+                setActiveRadio('random')
+            break;
+
+            case 'categories':
+                setActiveRadio('categories') 
+            break;
+
+            case 'search':
+                setActiveRadio('search')
+            break;
+            
+            default: 
+                return 'random';
+        }
+    }
+
+    const categoriesViewData = [];
+
+    categories.forEach((category) => {
+        categoriesViewData.push(
+            {
+                value: category,
+                active: false
+            }
+        )});
+
+    console.log(categoriesViewData);
+
+    const categoriesView = <CategoriesList Allcategories={categoriesViewData} onOptionsAdded={onOptionsAdded}/>;
+
+    const searchView = <Search handleChange={(label) => onOptionsAdded({selectedCategory: '', label})}/>;
 
     return (
         <div className="jumbotron">
             <span id="logo">MSI 2020</span>
-            <h1>Hey!</h1>
+            <h1 onClick={(e) => console.log(e.target.value)}>Hey!</h1>
             <h2>Let’s try to find a joke for you:</h2>
 
             <div className="form-check">
                 <label className="form-check-label">
-                    <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios1" value="random"
-                    onChange={(e) => setCheckView(e.target.value)}></input>
+                    <input type="radio" className="form-check-input" name="optionsRadios" id="random"
+                    onChange={onChangeRadio}></input>
                     <span>Random</span>
                 </label>
             </div>
             <div className="form-check">
                 <label className="form-check-label">
-                    <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2" value="categories"
-                    onChange={(e) => setCheckView(e.target.value)}></input>
+                    <input type="radio" className="form-check-input" name="optionsRadios" id="categories"
+                    onChange={onChangeRadio}></input>
                     <span>From categories</span>
                 </label>
             </div>
 
-            {checkView === "categories" &&  <Categories categories={categories} onCategoryClicked={({innerHTML})=>setActiveCategory([innerHTML])}/>}
+            {activeRadio === "categories" &&  categoriesView }
 
             <div className="form-check">
                 <label className="form-check-label">
-                    <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios3" value="search"
-                    onChange={(e) => setCheckView(e.target.value)}></input>
+                    <input type="radio" className="form-check-input" name="optionsRadios" id="search"
+                    onChange={onChangeRadio}></input>
                     <span>Search</span>
                 </label>
             </div>
 
-            {checkView === "search" &&  <Search handleChange={(label) => setLabel(label)}/>}
+            {activeRadio === "search" &&  searchView}
 
-            <button onClick={fetchJoke}>
-                Get a joke
-            </button>
-            <JokeBox joke={joke} activeCategory={activeCategory}/>
         </div>        
     );
 }

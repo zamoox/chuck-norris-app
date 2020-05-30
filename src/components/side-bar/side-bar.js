@@ -1,35 +1,60 @@
 import React, { Component } from 'react';
 
 import './side-bar.css';
+import ItemList from '../item-list';
+import JokeBox from '../joke-box';
 
 class SideBar extends Component {
 
     state = {
-        genres: ["fantasy", "science fiction", "novel", "legend", "criminal"],
+        favoriteList: [],
     }
 
-    wrapperRef = React.createRef();
+    componentDidUpdate (prevProps) {
+        if (this.props.data !== prevProps.data) {
+            this.updateList()
+        }
+    }
+
+    updateList = () => {
+        const { data } = this.props;
+        const filteredList = data.filter(e => e.favorite);
+        this.setState({
+            favoriteList: filteredList
+        });
+    }
 
     onToggle = () => {
         const wrapper = this.wrapperRef.current;
         wrapper.classList.toggle('is-nav-open');
     }
 
-    render () {                    
+    wrapperRef = React.createRef();
 
-        const { onGenreClick } = this.props;
-        const { genres } = this.state;
+    render () {      
+        
+        const { data, onFlagChange } = this.props;
+        const { favoriteList } = this.state;
+        console.log(data);
 
+        const items = favoriteList.map((e, index) => {
+            return <JokeBox jokeData={e} />
+        });
+        
         return (
             <div ref={this.wrapperRef} className="wrapper">
+                
                 <div className="side-bar">
-                        <div className="side-bar-content">
-                            <span className="head">Genres</span>
-                            <ul className="head-list">
-                            </ul>
-                        </div>
-                        <i onClick={this.onToggle} className="toggler fas fa-hamburger"></i>
+                    <span className="toggler" onClick={this.onToggle}>Favorite</span>
+                    <div className="side-bar-content">  
+                        <ItemList 
+                        dataList={favoriteList} 
+                        renderItem={(item) => <JokeBox jokeData={item} onFlagChange={onFlagChange} /> } />
+                    </div>
+                        
                 </div>
+                
+
             </div>
         );    
     }

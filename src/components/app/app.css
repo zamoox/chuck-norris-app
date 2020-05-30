@@ -10,9 +10,20 @@ html, body, #root {
 .layout {
     display: flex;
     justify-content: space-between;
-    margin: 0;
+    
     padding: 0;
-    height: 100vh;
+    overflow: hidden;
+    height: 100%;
 }
+
+.layout button {
+    margin: 40px 0 0 140px;
+}
+
+.layout .item-list {
+    margin-left: 140px;    
+}
+
+
 
 
